@@ -20,7 +20,7 @@ function TrendingAnime({changeMetaArr}) {
   async function getAnime() {
     window.scrollTo(0, 0);
     let res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}api/trending?page=1&count=50`
+      `${process.env.REACT_APP_BACKEND_URL}top-airing?page=1`
     );
     setLoading(false);
     setAnimeDetails(res.data.data.Page.media);

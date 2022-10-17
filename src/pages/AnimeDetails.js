@@ -24,23 +24,23 @@ function AnimeDetails() {
       setExpanded(false); //let res = await axios.get
       window.scrollTo(0, 0);
       let res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}api/getanime?link=/category/${slug}`
+        `${process.env.REACT_APP_BACKEND_URL}anime-details/${slug}`
       );
       setLoading(false);
       setAnimeDetails(res.data);
       getLocalStorage(res.data);
       setContent((content) => {
-        content = res.data[0].gogoResponse.description.replace("Plot Summary:", "");
+        content = res.data.synopsyis;
         let len = 200;
         return content = content.length > len ?
                   content.substring(0, len - 3) + "..." :
                   content;
       });
       setBanner((banner) => {
-        return banner = res.data[0].gogoResponse.image;
+        return banner = res.data.animeImg;
       });
       setTitle((title) => {
-        return title = res.data[0].gogoResponse.title;
+        return title = res.data.animeTitle;
       });
     }
     getAnimeDetails();
@@ -56,7 +56,7 @@ function AnimeDetails() {
       lsData = JSON.parse(lsData);
 
       let index = lsData.Names.findIndex(
-        (i) => i.name === animeDetails[0].gogoResponse.title
+        (i) => i.name === animeDetails.animeTitle
       );
 
       if (index !== -1) {
@@ -81,8 +81,8 @@ function AnimeDetails() {
             <div>
               <Banner
                 src={
-                  animeDetails[0].anilistResponse !== "NONE" &&
-                  animeDetails[0].anilistResponse.anilistBannerImage !== null
+                  animeDetails?.anilistResponse !== "NONE" &&
+                  animeDetails?.anilistResponse.anilistBannerImage !== null
                     ? animeDetails[0].anilistResponse.anilistBannerImage
                     : "https://media.discordapp.net/attachments/1009328245533065288/1009740976711020575/Sakamoto_Public_Preview.png"
                 }
@@ -112,18 +112,15 @@ function AnimeDetails() {
                   )}
                 </Poster>
                 <div>
-                  <h1>{animeDetails[0].gogoResponse.title}</h1>
+                  <h1>{animeDetails.animeTitle}</h1>
                   <p>
                     <span>Type: </span>
-                    {animeDetails[0].gogoResponse.type.replace("Type:", "")}
+                    {animeDetails.type}
                   </p>
                   {width <= 600 && expanded && (
                     <p>
                       <span>Plot Summary: </span>
-                      {animeDetails[0].gogoResponse.description.replace(
-                        "Plot Summary:",
-                        ""
-                      )}
+                      {animeDetails.synopsis}
                       <button onClick={() => readMoreHandler()}>
                         read less
                       </button>
@@ -132,8 +129,7 @@ function AnimeDetails() {
                   {width <= 600 && !expanded && (
                     <p>
                       <span>Plot Summary: </span>
-                      {animeDetails[0].gogoResponse.description
-                        .replace("Plot Summary:", "")
+                      {animeDetails.synopsis
                         .substring(0, 200) + "... "}
                       <button onClick={() => readMoreHandler()}>
                         read more
@@ -143,36 +139,30 @@ function AnimeDetails() {
                   {width > 600 && (
                     <p>
                       <span>Plot Summary: </span>
-                      {animeDetails[0].gogoResponse.description.replace(
-                        "Plot Summary:",
-                        ""
-                      )}
+                      {animeDetails.synopsis}
                     </p>
                   )}
 
                   <p>
                     <span>Genre: </span>
-                    {animeDetails[0].gogoResponse.genre.replace("Genre:", "")}
+                    {animeDetails.genres[0]}
                   </p>
                   <p>
                     <span>Released: </span>
-                    {animeDetails[0].gogoResponse.released.replace(
-                      "Released:",
-                      ""
-                    )}
+                    {animeDetails.releasedDate}
                   </p>
                   <p>
                     <span>Status: </span>
-                    {animeDetails[0].gogoResponse.status.replace("Status:", "")}
+                    {animeDetails.status}
                   </p>
                   <p>
                     <span>Number of Episodes: </span>
-                    {animeDetails[0].gogoResponse.numOfEpisodes}
+                    {animeDetails.numOfEpisodes}
                   </p>
                 </div>
               </ContentWrapper>
               <EpisodeLinksList
-                episodeArray={animeDetails[0].gogoResponse.episodes}
+                episodeArray={animeDetails.episodesList}
                 episodeNum={parseInt(localStorageDetails)}
               />
             </div>

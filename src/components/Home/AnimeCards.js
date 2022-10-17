@@ -15,10 +15,10 @@ function AnimeCards(props) {
   useEffect(() => {
     async function getData() {
       let res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}api/${props.criteria}?page=1&count=${props.count}`
+        `${process.env.REACT_APP_BACKEND_URL}${props.criteria}`
       );
       setLoading(false);
-      setData(res.data.data.Page.media);
+      setData(res.data);
     }
     getData();
   }, [props.count, props.criteria]);
@@ -62,18 +62,13 @@ function AnimeCards(props) {
               <Wrapper>
                 <Link
                   to={
-                    "search/" +
-                    (item.title.userPreferred !== null
-                      ? item.title.userPreferred
-                      : item.title.english)
+                    "search/" + item.animeTitle
                   }
                 >
-                  <img src={item.coverImage.large} alt="" />
+                  <img src={item.animeImg} alt="" />
                 </Link>
                 <p>
-                  {item.title.english !== null
-                    ? item.title.english
-                    : item.title.english}
+                  {item.animeTitle}
                 </p>
               </Wrapper>
             </SwiperSlide>

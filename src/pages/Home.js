@@ -23,17 +23,16 @@ function Home({changeMetaArr}) {
   //   // console.log("Hlo")
   // })
   useEffect(() => {
+    async function getImages() {
+      window.scrollTo(0, 0);
+      let result = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}recent-release`
+      );
+      setImages(result.data);
+      setLoading(false);
+    }
     getImages();
   }, []);
-
-  async function getImages() {
-    window.scrollTo(0, 0);
-    let result = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}api/trending?page=1&count=15`
-    );
-    setImages(result.data.data.Page.media);
-    setLoading(false);
-  }
 
   function checkSize() {
     let lsData = localStorage.getItem("Animes");
@@ -80,20 +79,11 @@ function Home({changeMetaArr}) {
         <div>
           <HeadingWrapper>
             <Heading>
-              <span>Trending</span> Now
-            </Heading>
-            <Links to="/trending">View All</Links>
-          </HeadingWrapper>
-          <AnimeCards count={width <= 600 ? 7 : 15} criteria="trending" />
-        </div>
-        <div>
-          <HeadingWrapper>
-            <Heading>
               <span>Top 100</span> Anime
             </Heading>
             <Links to="/top100">View All</Links>
           </HeadingWrapper>
-          <AnimeCards count={width <= 600 ? 7 : 15} criteria="top100" />
+          <AnimeCards count={width <= 600 ? 7 : 15} criteria="top-airing" />
         </div>
         <div>
           <HeadingWrapper>
@@ -102,7 +92,7 @@ function Home({changeMetaArr}) {
             </Heading>
             <Links to="/favourites">View All</Links>
           </HeadingWrapper>
-          <AnimeCards count={width <= 600 ? 7 : 15} criteria="favourite" />
+          <AnimeCards count={width <= 600 ? 7 : 15} criteria="top-airing" />
         </div>
       </HomeDiv>
     </div>

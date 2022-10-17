@@ -29,7 +29,7 @@ function SearchResults({changeMetaArr}) {
       setLoading(true);
       window.scrollTo(0, 0);
       let res = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}api/search?name=${urlParams}`
+        `${process.env.REACT_APP_BACKEND_URL}search?keyw=${urlParams}`
       );
       setLoading(false);
       setResults(res.data);
@@ -52,7 +52,7 @@ function SearchResults({changeMetaArr}) {
 
   const filterResults = (item) => {
     if (filter.dubs && filter.subs) return true;
-    let match = item.title.toLowerCase().endsWith('(dub)');
+    let match = item.animeId.endsWith('dub');
     return filter.dubs ? match : !match;
   }
 
@@ -79,9 +79,9 @@ function SearchResults({changeMetaArr}) {
           </CheckboxWrapper>
           <CardWrapper>
             {results.filter(filterResults).map((item, i) => (
-              <Wrapper to={item.link} key={i}>
-                <img src={item.image} alt="" />
-                <p>{item.title}</p>
+              <Wrapper to={"/category/"+item.animeId} key={i}>
+                <img src={item.animeImg} alt="" />
+                <p>{item.animeTitle}</p>
               </Wrapper>
             ))}
           </CardWrapper>

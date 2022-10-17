@@ -32,37 +32,37 @@ function Carousel({ images }) {
       >
         {images.map(
           (item, index) =>
-            item.bannerImage !== null && (
+            item.animeImg !== null && (
               <SwiperSlide key={index}>
                 <Container>
                   {width <= 600 && (
                     <img
-                      src={item.bannerImage}
+                      src={item.animeImg}
                       alt=""
                       style={bannerImageStyleMobile}
                     />
                   )}
                   {width > 600 && (
-                    <img src={item.bannerImage} alt="" style={bannerImgStyle} />
+                    <img src={item.animeImg} alt="" style={bannerImgStyle} />
                   )}
                   <Wrapper>
                     <Content>
                       {width <= 600 && (
                         <p>
-                          {item.title.english !== null
-                            ? item.title.english.length > 35
-                              ? item.title.english.substring(0, 35) + "..."
-                              : item.title.english
-                            : item.title.english.length > 35
-                            ? item.title.english.substring(0, 35) + "..."
-                            : item.title.english}
+                          {item.animeTitle !== null
+                            ? item.animeTitle.length > 35
+                              ? item.animeTitle.substring(0, 35) + "..."
+                              : item.animeTitle
+                            : item.animeTitle.length > 35
+                            ? item.animeTitle.substring(0, 35) + "..."
+                            : item.animeTitle}
                         </p>
                       )}
                       {width > 600 && (
                         <p>
-                          {item.title.english !== null
-                            ? item.title.english
-                            : item.title.english}
+                          {item.animeTitle !== null
+                            ? item.animeTitle
+                            : item.animeTitle}
                         </p>
                       )}
 
@@ -76,7 +76,7 @@ function Carousel({ images }) {
                             },
                           }}
                         >
-                          <Button to={"search/" + item.title.english}>
+                          <Button to={"search/" + item.animeTitle}>
                             <BsFillPlayFill />
                           </Button>
                         </IconContext.Provider>
@@ -92,7 +92,7 @@ function Carousel({ images }) {
                             },
                           }}
                         >
-                          <Button to={"search/" + item.title.english}>
+                          <Button to={"search/" + item.animeTitle}>
                             <BsFillPlayFill />
                             Watch Now
                           </Button>
