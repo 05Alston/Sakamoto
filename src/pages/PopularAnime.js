@@ -22,10 +22,10 @@ function PopularAnime({changeMetaArr}) {
   async function getAnime() {
     window.scrollTo(0, 0);
     let res = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}api/popular?page=1&count=50`
+      `${process.env.REACT_APP_BACKEND_URL}popular?page=1`
     );
     setLoading(false);
-    setAnimeDetails(res.data.data.Page.media);
+    setAnimeDetails(res.data);
   }
   return (
     <div>

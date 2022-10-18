@@ -14,9 +14,6 @@ function AnimeDetails() {
   const [expanded, setExpanded] = useState(false);
   const { width } = useWindowDimensions();
   const [localStorageDetails, setLocalStorageDetails] = useState(0);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [banner, setBanner] = useState("");
 
   useEffect(() => {
     async function getAnimeDetails() {
@@ -29,19 +26,6 @@ function AnimeDetails() {
       setLoading(false);
       setAnimeDetails(res.data);
       getLocalStorage(res.data);
-      setContent((content) => {
-        content = res.data.synopsyis;
-        let len = 200;
-        return content = content.length > len ?
-                  content.substring(0, len - 3) + "..." :
-                  content;
-      });
-      setBanner((banner) => {
-        return banner = res.data.animeImg;
-      });
-      setTitle((title) => {
-        return title = res.data.animeTitle;
-      });
     }
     getAnimeDetails();
   }, [slug]);
@@ -68,11 +52,11 @@ function AnimeDetails() {
   return (
     <div>
       <Helmet>
-        <title>{title}</title>
-        <meta property="description" content= {content}/>
-        <meta property="og:title" content= {title}/>
-        <meta property="og:description" content= {content}/>
-        <meta property="og:image" content={banner} />
+        <title>{animeDetails.animeTitle}</title>
+        <meta property="description" content= {animeDetails.synopsis}/>
+        <meta property="og:title" content= {animeDetails.animeTitle}/>
+        <meta property="og:description" content= {animeDetails.synopsis}/>
+        <meta property="og:image" content={animeDetails.animeImg} />
       </Helmet>
       {loading && <AnimeDetailsSkeleton />}
       {!loading && (
@@ -81,19 +65,16 @@ function AnimeDetails() {
             <div>
               <Banner
                 src={
-                  animeDetails?.anilistResponse !== "NONE" &&
-                  animeDetails?.anilistResponse.anilistBannerImage !== null
-                    ? animeDetails[0].anilistResponse.anilistBannerImage
-                    : "https://media.discordapp.net/attachments/1009328245533065288/1009740976711020575/Sakamoto_Public_Preview.png"
+                  "https://media.discordapp.net/attachments/1009328245533065288/1009740976711020575/Sakamoto_Public_Preview.png"
                 }
                 alt=""
               />
               <ContentWrapper>
                 <Poster>
-                  <img src={animeDetails[0].gogoResponse.image} alt="" />
+                  <img src={animeDetails.animeImg} alt="" />
                   {localStorageDetails === 0 && (
                     <Button
-                      to={"/watch" + animeDetails[0].gogoResponse.episodes[0]}
+                      to={"/watch" + animeDetails.episodesList[0]}
                     >
                       Watch Now
                     </Button>
@@ -102,7 +83,7 @@ function AnimeDetails() {
                     <Button
                       to={
                         "/watch" +
-                        animeDetails[0].gogoResponse.episodes[
+                        animeDetails.episodesList[
                           localStorageDetails - 1
                         ]
                       }

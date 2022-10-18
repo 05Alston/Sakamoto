@@ -14,16 +14,12 @@ const AnimeGrid = ({ title, animeDetails }) => {
             key={i}
             to={
               "/search/" +
-              (item.title.userPreferred !== null
-                ? item.title.userPreferred
-                : item.title.english)
+              (item.animeTitle)
             }
           >
-            <img src={item.coverImage.large} alt="" />
+            <img src={item.animeImg} alt="" />
             <p>
-              {item.title.english !== null
-                ? item.title.english
-                : item.title.userPreferred}
+              {item.animeTitle}
             </p>
           </Links>
         ))}
