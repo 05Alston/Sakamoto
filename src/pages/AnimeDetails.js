@@ -14,7 +14,10 @@ function AnimeDetails() {
   const [expanded, setExpanded] = useState(false);
   const { width } = useWindowDimensions();
   const [localStorageDetails, setLocalStorageDetails] = useState(0);
-
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [banner, setBanner] = useState("");
+  
   useEffect(() => {
     async function getAnimeDetails() {
       setLoading(true);
@@ -26,6 +29,19 @@ function AnimeDetails() {
       setLoading(false);
       setAnimeDetails(res.data);
       getLocalStorage(res.data);
+      setContent((content) => {
+        content = res.data.synopsis;
+        let len = 200;
+        return content = content.length > len ?
+                  content.substring(0, len - 3) + "..." :
+                  content;
+      });
+      setBanner((banner) => {
+        return banner = res.data.animeImg;
+      });
+      setTitle((title) => {
+        return title = res.data.animeTitle;
+      });
     }
     getAnimeDetails();
   }, [slug]);
@@ -52,20 +68,22 @@ function AnimeDetails() {
   return (
     <div>
       <Helmet>
-        <title>{animeDetails.animeTitle}</title>
-        <meta property="description" content= {animeDetails.synopsis}/>
-        <meta property="og:title" content= {animeDetails.animeTitle}/>
-        <meta property="og:description" content= {animeDetails.synopsis}/>
-        <meta property="og:image" content={animeDetails.animeImg} />
+        <title>{title}</title>
+        <meta property="description" content= {content}/>
+        <meta property="og:title" content= {title}/>
+        <meta property="og:description" content= {content}/>
+        <meta property="og:image" content={banner} />
       </Helmet>
       {loading && <AnimeDetailsSkeleton />}
       {!loading && (
         <Content>
-          {animeDetails.length > 0 && (
+          {animeDetails != null && (
             <div>
               <Banner
                 src={
-                  "https://media.discordapp.net/attachments/1009328245533065288/1009740976711020575/Sakamoto_Public_Preview.png"
+                  animeDetails.animeImg !== null
+                    ? animeDetails.animeImg
+                    : "https://media.discordapp.net/attachments/1009328245533065288/1009740976711020575/Sakamoto_Public_Preview.png"
                 }
                 alt=""
               />
@@ -138,7 +156,7 @@ function AnimeDetails() {
                   </p>
                   <p>
                     <span>Number of Episodes: </span>
-                    {animeDetails.numOfEpisodes}
+                    {animeDetails.totalEpisodes}
                   </p>
                 </div>
               </ContentWrapper>

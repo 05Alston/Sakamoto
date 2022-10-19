@@ -1,3 +1,4 @@
+const fetch = require('node-fetch');
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
@@ -38,16 +39,20 @@ app.get("/popular", function (req, res) {
   });
 });
 
-app.get("/search", function (req, res) {
+app.get("/search/:name", function (req, res) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
-  let urlParams = useParams().name;
+  let urlParams = req.params['name'].replace(":", "").replace("(", "").replace(")", "");
   fs.readFile(filePath, "utf8", async function (err, data) {
     if (err) {
       return console.log(err);
     }
-    let res = await axios.get(
+    let res = fetch(
         `${process.env.REACT_APP_BACKEND_URL}search?keyw=${urlParams}`
-    );
+    )
+    .then(res => {
+      console.log(res);
+      return res.data;
+    });
     data = data.replace(/{{__title__}}/, "Search results for " + res.data.animeTitle);
     data = data.replace(/{{__description__}}/, "Sakamoto - Watch Popular Anime Online");
     data = data.replace(/{{__image__}}/, "https://media.discordapp.net/attachments/1009328245533065288/1009328327909199904/8.png");
@@ -56,9 +61,9 @@ app.get("/search", function (req, res) {
   });
 });
 
-app.get("/category", function (req, res) {
+app.get("/category/:slug", function (req, res) {
   const filePath = path.resolve(__dirname, "./build", "index.html");
-  let slug = useParams().slug;
+  let slug = req.params['slug'];
 
   fs.readFile(filePath, "utf8", async function (err, data) {
     if (err) {
