@@ -79,7 +79,7 @@ function SearchResults({changeMetaArr}) {
           </CheckboxWrapper>
           <CardWrapper>
             {results.filter(filterResults).map((item, i) => (
-              <Wrapper to={"/category/"+item.animeTitle.toLowerCase().replaceAll(" ","-")} key={i}>
+              <Wrapper to={"/category/"+item.animeId} key={i}>
                 <img src={item.animeImg} alt="" />
                 <p>{item.animeTitle}</p>
               </Wrapper>

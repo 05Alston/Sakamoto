@@ -6,10 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="author" content="ShivamKun">
-<!--     <meta
+    <meta
       name="description"
-      content="Sakamoto. An ad-free anime streaming site. Catch your favourite shows and movies right here! Help us by contributing to the project on github."
-    /> -->
+      content="{{__description__}}"
+    />
+    <meta
+      name="og:description"
+      content="{{__description__}}"
+    />
+    <meta property="og:title" content= "{{__title__}}"/>
     <meta
       name="keywords"
       content="sakamoto, anime"
@@ -17,10 +22,12 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://sakamoto.vercel.app" />
     <meta property="og:site_name" content="sakamoto.vercel.app" />
+    <meta property="og:image" content="{{__image__}}" />
     <meta
       property="og:image:alt"
       content="Sakamoto - Anime Watching Hue Hue"
     />
+    <title>{{__title__}}</title>
 
     <!------------------------------- Google tag (gtag.js) ------------------------------------>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YNF8PF4MCX"></script>
@@ -36,7 +43,6 @@
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet" />
-    <title>Sakamoto - Watch Popular Anime Online</title>
     <base href="/" />
   </head>
   <body>
